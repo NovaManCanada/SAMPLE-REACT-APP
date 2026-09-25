@@ -1,0 +1,128 @@
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f4f5f7;
+  margin: 0;
+}
+
+.container {
+  max-width: 420px;
+  margin: 60px auto;
+  padding: 0 16px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.topbar-title {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.account-menu {
+  position: relative;
+}
+
+.account-menu-trigger {
+  background: transparent;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  padding: 6px 12px;
+}
+
+.account-menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.account-menu-dropdown button {
+  background: #fff;
+  color: #1f2937;
+  border: none;
+  border-radius: 0;
+  text-align: left;
+  padding: 10px 14px;
+}
+
+.account-menu-dropdown button:hover {
+  background: #f4f5f7;
+}
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #6b7280;
+  margin-top: 12px;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.hint {
+  font-size: 12px;
+  color: #666;
+  margin: -6px 0 0;
+}
+
+.error {
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.success {
+  color: #15803d;
+  font-size: 13px;
+}
