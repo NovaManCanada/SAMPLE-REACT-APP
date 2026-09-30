@@ -124,6 +124,22 @@ Welcome! Verify your email by visiting: http://localhost:5173/verify-email?token
 
 Copy that link into your browser to continue the flow. For something closer to real email in dev, create a free test inbox at [ethereal.email](https://ethereal.email) and put those credentials in `SMTP_*`.
 
+#### Using a self-signed SMTP server (e.g. a homelab mailcow instance)
+
+Node.js validates TLS certificates against its own bundled CA list, not the OS trust store — so `sudo update-ca-certificates` alone does **not** make Node trust a self-signed mail server, even if `openssl` and the browser already do. Sending will fail with `self-signed certificate` until Node is told about the cert explicitly.
+
+To fix this:
+
+1. Get the server's CA/leaf certificate, e.g.:
+   ```bash
+   echo | openssl s_client -starttls smtp -connect <SMTP_HOST>:587 -showcerts
+   ```
+   and save the first `-----BEGIN CERTIFICATE----- ... -----END CERTIFICATE-----` block to a `.crt` file.
+2. Commit it under `server/certs/` (this repo already ships `server/certs/mailcows-homelab.crt` for the default `mailcows.homelab.net` dev mail server — swap it out if you point `SMTP_HOST` at a different self-signed server).
+3. `server/package.json`'s `dev`/`start` scripts already set `NODE_EXTRA_CA_CERTS=./certs/mailcows-homelab.crt`, so running `npm run dev` / `npm start` picks it up automatically — no extra steps needed as long as `server/certs/mailcows-homelab.crt` matches the cert your `SMTP_HOST` actually presents.
+
+The bundled cert expires **2027-09-25**. After that (or if the mail server's cert changes), regenerate it with the `openssl` command above and replace `server/certs/mailcows-homelab.crt`.
+
 ### Rate limits
 
 Auth endpoints are rate-limited (default: 20 req/15min general, 5 req/hour for `forgot-password`). If you're hammering the API during manual testing and hit `429 Too many requests`, either wait out the window or raise the limits for local dev only via `server/.env`:

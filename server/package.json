@@ -7,8 +7,8 @@
     "node": ">=20"
   },
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "start": "NODE_EXTRA_CA_CERTS=./certs/mailcows-homelab.crt node src/index.js",
+    "dev": "NODE_EXTRA_CA_CERTS=./certs/mailcows-homelab.crt node --watch src/index.js"
   },
   "dependencies": {
     "bcryptjs": "2.4.3",
