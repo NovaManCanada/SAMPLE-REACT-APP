@@ -102,6 +102,22 @@ npm run dev
 
 The SPA runs on `http://localhost:5173` and proxies `/api/*` to the server (see `vite.config.js`).
 
+### Accessing from another device on your LAN
+
+Verification and password-reset links are built from the origin the browser used to call the API, so a link emailed while you registered from `localhost:5173` only opens correctly on the machine running `npm run dev` — "localhost" means something different on every device.
+
+To make those links work when opened from another device on your network (e.g. checking email on your phone or a different computer):
+
+1. `cp client/.env.example client/.env` and set `VITE_DEV_HOST` to a hostname other devices can resolve (e.g. a homelab DNS name like `claude.homelab.net`, or the host machine's LAN IP).
+2. Add the matching origin to `CLIENT_ORIGIN` in `server/.env` (comma-separated), e.g.:
+   ```
+   CLIENT_ORIGIN=http://localhost:5173,http://claude.homelab.net:5173
+   ```
+3. Restart both `npm run dev` processes to pick up the `.env` changes.
+4. Open the app via `http://<VITE_DEV_HOST>:5173/register` (not `localhost`) so the browser's Origin header — and therefore the emailed link — uses the reachable hostname.
+
+`vite.config.js` binds the dev server to all network interfaces and adds `VITE_DEV_HOST` to Vite's `allowedHosts`, so it accepts requests addressed to that hostname instead of only `localhost`.
+
 ## Usage
 
 1. Open `http://localhost:5173/register`, create an account.
